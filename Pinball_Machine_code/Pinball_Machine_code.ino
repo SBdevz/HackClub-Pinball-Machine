@@ -5,6 +5,7 @@ const int trigPin = 2;
 const int echoPin = 3;
 float distance = 0;
 int score = 0;
+int game = 0;
 
 
 void setup() {
@@ -15,6 +16,9 @@ void setup() {
 
   lcd.begin(16,2);
   lcd.clear();
+
+  pinMode(7, INPUT_PULLUP);
+  pinMode(6, INPUT_PULLUP);
 }
 
 void loop() {
@@ -23,12 +27,20 @@ void loop() {
   Serial.println("in");
   if (distance <= 5) {
     score += 1;
+    delay(1000);
   }
 
   lcd.setCursor(7, 0);
   lcd.print(score);
+  lcd.setCursor(7, 1);
+  lcd.print(game);
 
-  delay(1000);
+  if(digitalRead(7) == LOW) {
+    game = 1;
+  }
+  if(digitalRead(6) == LOW) {
+    game = 0;
+  }
 }
 
 float getDistance ()
